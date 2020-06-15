@@ -66,8 +66,8 @@ public class RemoteDataSource implements DataSource {
         return earthquakes;
     }
 
-    public void refreshData() {
-        apiService.getEarthquakes(1).enqueue(callback);
+    public void refreshData(int offset) {
+        apiService.getEarthquakes(offset).enqueue(callback);
     }
 
     public void setCallback(Callback<EarthquakeResponse> callback) {

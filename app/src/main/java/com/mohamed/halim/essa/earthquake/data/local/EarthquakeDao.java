@@ -13,7 +13,7 @@ import com.mohamed.halim.essa.earthquake.data.EarthquakeResponse.Earthquake;
 import java.util.List;
 @Dao
 public interface EarthquakeDao {
-    @Query("SELECT * FROM earthquake ORDER BY time ASC")
+    @Query("SELECT * FROM earthquake ORDER BY time DESC")
     LiveData<List<Earthquake>> getEarthquakes();
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Earthquake> earthquakes);

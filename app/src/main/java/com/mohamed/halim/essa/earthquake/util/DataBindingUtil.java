@@ -97,4 +97,5 @@ public class DataBindingUtil {
         magnitudeCircle.setColor(ContextCompat.getColor(textView.getContext(), color));
     }
 
+
 }

@@ -54,6 +54,12 @@ public class EarthquakesFragment extends Fragment {
         });
         binding.earthquakesList.setAdapter(adapter);
         binding.earthquakesList.setLayoutManager(manager);
+        binding.earthquakesList.addOnScrollListener(new EndlessRecyclerViewScrollListener(manager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                viewModel.updateDate(page * 20 +1);
+            }
+        });
         return binding.getRoot();
     }
 }

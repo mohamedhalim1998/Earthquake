@@ -21,4 +21,8 @@ public class EarthquakesViewModel extends ViewModel {
         return earthquakes;
     }
 
+    public void updateDate(int offset){
+        repository.updateDate(offset);
+    }
+
 }

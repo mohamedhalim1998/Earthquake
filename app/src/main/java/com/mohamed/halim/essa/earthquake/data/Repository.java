@@ -13,6 +13,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class Repository implements Callback<EarthquakeResponse> {
     private RemoteDataSource remoteDataSource;
@@ -28,10 +29,14 @@ public class Repository implements Callback<EarthquakeResponse> {
 
 
     public LiveData<List<Earthquake>> getEarthquakes() {
-        remoteDataSource.refreshData();
+        remoteDataSource.refreshData(1);
         return earthquakes;
     }
 
+
+    public void updateDate(int offset){
+        remoteDataSource.refreshData(offset);
+    }
 
     @Override
     public void onResponse(@NotNull Call<EarthquakeResponse> call, @NotNull Response<EarthquakeResponse> response) {
