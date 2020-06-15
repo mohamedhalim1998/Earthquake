@@ -1,6 +1,12 @@
 package com.mohamed.halim.essa.earthquake.data;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.Relation;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -22,9 +28,13 @@ public class EarthquakeResponse {
         return earthquakes;
     }
 
-    public class Earthquake {
+    @Entity(tableName = "earthquake")
+    public static class Earthquake {
+        @PrimaryKey
+        @NonNull
         String id;
 
+        @Embedded
         @SerializedName("properties")
         Properties properties;
 
@@ -51,7 +61,7 @@ public class EarthquakeResponse {
                     Objects.equals(properties, that.properties);
         }
 
-        public class Properties {
+        public static class Properties {
             @SerializedName("mag")
             float magnitude;
             String place;
@@ -94,6 +104,10 @@ public class EarthquakeResponse {
 
             public String getUrl() {
                 return url;
+            }
+
+            public String getPlace() {
+                return place;
             }
 
             @Override

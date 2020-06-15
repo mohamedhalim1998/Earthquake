@@ -2,12 +2,16 @@ package com.mohamed.halim.essa.earthquake.data.remote;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.room.Database;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mohamed.halim.essa.earthquake.data.DataSource;
 import com.mohamed.halim.essa.earthquake.data.EarthquakeResponse;
 import com.mohamed.halim.essa.earthquake.data.EarthquakeResponse.Earthquake;
+import com.mohamed.halim.essa.earthquake.data.local.EarthquakeDao;
+import com.mohamed.halim.essa.earthquake.data.local.EarthquakeDatabase;
+import com.mohamed.halim.essa.earthquake.data.local.EarthquakeExecutor;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -31,6 +35,8 @@ public class RemoteDataSource implements DataSource {
     // to store the earthquakes info
     private MutableLiveData<List<Earthquake>> earthquakes;
     private static RemoteDataSource INSTANCE;
+    private MutableLiveData<Boolean> success = new MutableLiveData<>();
+    private Callback<EarthquakeResponse> callback;
 
     // singleton pattern to call the data
     public static RemoteDataSource getInstance() {
@@ -52,27 +58,23 @@ public class RemoteDataSource implements DataSource {
 
     /**
      * to start a network request to get the data
+     *
      * @return a list of earthquakes wrapped in live data
      */
     @Override
     public LiveData<List<Earthquake>> getEarthquakes() {
-        refreshData();
         return earthquakes;
     }
 
     public void refreshData() {
-        apiService.getEarthquakes(1).enqueue(new Callback<EarthquakeResponse>() {
-            @Override
-            public void onResponse(@NotNull Call<EarthquakeResponse> call, @NotNull Response<EarthquakeResponse> response) {
-                if (response.body() != null) {
-                    earthquakes.setValue(response.body().getEarthquakes());
-                }
-            }
+        apiService.getEarthquakes(1).enqueue(callback);
+    }
 
-            @Override
-            public void onFailure(@NotNull Call<EarthquakeResponse> call, @NotNull Throwable t) {
+    public void setCallback(Callback<EarthquakeResponse> callback) {
+        this.callback = callback;
+    }
 
-            }
-        });
+    public void setEarthquakes(List<Earthquake> earthquakes) {
+        this.earthquakes.setValue(earthquakes);
     }
 }
