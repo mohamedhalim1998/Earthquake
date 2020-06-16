@@ -21,11 +21,13 @@ public class Repository implements Callback<EarthquakeResponse> {
     private RemoteDataSource remoteDataSource;
     private LocalDataSource localDataSource;
     private LiveData<List<Earthquake>> earthquakes;
+    private float magnitude;
 
     /**
      * create a new repo
+     *
      * @param remoteDataSource : the remote data source
-     * @param localDataSource : the local data source
+     * @param localDataSource  : the local data source
      */
     public Repository(RemoteDataSource remoteDataSource, LocalDataSource localDataSource) {
         this.remoteDataSource = remoteDataSource;
@@ -36,21 +38,36 @@ public class Repository implements Callback<EarthquakeResponse> {
 
     /**
      * getter for the data field
+     *
      * @return list of earthquakes
      */
     public LiveData<List<Earthquake>> getEarthquakes() {
-        remoteDataSource.refreshData(1);
+        remoteDataSource.refreshData(1, magnitude);
         return earthquakes;
     }
 
     /**
      * request more data from the server
+     *
      * @param offset : to start the query from
      */
-    public void updateDate(int offset){
-        remoteDataSource.refreshData(offset);
+    public void updateDate(int offset, float magnitude) {
+        if (magnitude != this.magnitude) {
+            localDataSource.clearCache();
+            this.magnitude = magnitude;
+        }
+        remoteDataSource.refreshData(offset, magnitude);
     }
-// call backs for the remote data source
+
+    public float getMagnitude() {
+        return magnitude;
+    }
+
+    public void setMagnitude(float magnitude) {
+        this.magnitude = magnitude;
+    }
+
+    // call backs for the remote data source
     @Override
     public void onResponse(@NotNull Call<EarthquakeResponse> call, @NotNull Response<EarthquakeResponse> response) {
         if (response.body() != null) {

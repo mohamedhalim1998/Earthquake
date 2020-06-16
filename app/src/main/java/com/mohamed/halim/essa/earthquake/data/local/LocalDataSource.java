@@ -44,4 +44,13 @@ public class LocalDataSource implements DataSource {
             }
         });
     }
+
+    public void clearCache() {
+        EarthquakeExecutor.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                database.deleteAll();
+            }
+        });
+    }
 }

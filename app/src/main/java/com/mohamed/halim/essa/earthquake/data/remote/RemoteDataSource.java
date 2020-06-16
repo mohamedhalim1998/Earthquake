@@ -62,8 +62,8 @@ public class RemoteDataSource implements DataSource {
      *
      * @param offset : to start from
      */
-    public void refreshData(int offset) {
-        apiService.getEarthquakes(offset).enqueue(callback);
+    public void refreshData(int offset, float magnitude) {
+        apiService.getEarthquakes(offset, magnitude).enqueue(callback);
     }
 
 

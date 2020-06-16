@@ -13,6 +13,6 @@ import retrofit2.http.Query;
  */
 public interface ApiService {
     // to get the json response
-    @GET("query?format=geojson&minmagnitude=2&limit=20")
-    Call<EarthquakeResponse> getEarthquakes(@Query("offset") int offset);
+    @GET("query?format=geojson&limit=20")
+    Call<EarthquakeResponse> getEarthquakes(@Query("offset") int offset, @Query("minmagnitude") float mag);
 }

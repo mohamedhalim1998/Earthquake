@@ -9,5 +9,13 @@
         android:id="@+id/earthquakesFragment"
         android:name="com.mohamed.halim.essa.earthquake.earthquakes.EarthquakesFragment"
         android:label="fragment_earthquakes"
-        tools:layout="@layout/fragment_earthquakes" />
+        tools:layout="@layout/fragment_earthquakes" >
+        <action
+            android:id="@+id/action_earthquakesFragment_to_preferenceFragment"
+            app:destination="@id/preferenceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/preferenceFragment"
+        android:name="com.mohamed.halim.essa.earthquake.preference.preferenceFragment"
+        android:label="preferenceFragment" />
 </navigation>
