@@ -1,5 +1,7 @@
 package com.mohamed.halim.essa.earthquake.earthquakes;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
@@ -25,12 +27,13 @@ import com.mohamed.halim.essa.earthquake.data.local.LocalDataSource;
 import com.mohamed.halim.essa.earthquake.data.remote.RemoteDataSource;
 import com.mohamed.halim.essa.earthquake.databinding.FragmentEarthquakesBinding;
 
+import java.sql.Time;
 import java.util.List;
 
 import timber.log.Timber;
 
 
-public class EarthquakesFragment extends Fragment {
+public class EarthquakesFragment extends Fragment implements EarthquakesAdapter.ItemClickListener {
 
     private Repository repository;
     private EarthquakesViewModel viewModel;
@@ -52,7 +55,7 @@ public class EarthquakesFragment extends Fragment {
     }
 
     private void initRecycleView() {
-        EarthquakesAdapter adapter = new EarthquakesAdapter();
+        EarthquakesAdapter adapter = new EarthquakesAdapter(this);
         LinearLayoutManager manager = new LinearLayoutManager(requireContext());
         viewModel.getEarthquakes().observe(getViewLifecycleOwner(), new Observer<List<Earthquake>>() {
             @Override
@@ -65,7 +68,8 @@ public class EarthquakesFragment extends Fragment {
         binding.earthquakesList.addOnScrollListener(new EndlessRecyclerViewScrollListener(manager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                viewModel.updateDate(page * 20 + 1);
+                int size = viewModel.getEarthquakes().getValue() != null ? viewModel.getEarthquakes().getValue().size() : 0;
+                viewModel.updateDate(size + 1);
             }
         });
     }
@@ -74,5 +78,15 @@ public class EarthquakesFragment extends Fragment {
         RemoteDataSource remoteDataSource = RemoteDataSource.getInstance();
         LocalDataSource localDataSource = new LocalDataSource(requireContext());
         repository = new Repository(remoteDataSource, localDataSource);
+    }
+
+    @Override
+    public void onItemClick(String url) {
+        Timber.d(url);
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        if (i.resolveActivity(requireActivity().getPackageManager()) != null) {
+            startActivity(i);
+        }
     }
 }

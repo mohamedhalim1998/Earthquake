@@ -6,99 +6,114 @@
     <data>
 
         <variable
+            name="clickListener"
+            type="com.mohamed.halim.essa.earthquake.earthquakes.EarthquakesAdapter.ItemClickListener" />
+
+        <variable
             name="earthquake"
             type="com.mohamed.halim.essa.earthquake.data.EarthquakeResponse.Earthquake" />
 
     </data>
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/listPreferredItemHeight"
-        android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingLeft="16dp"
-        android:paddingEnd="16dp"
-        android:paddingRight="16dp">
-
-        <TextView
-            android:id="@+id/magnitude_text_view"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/magnitude_circle"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            app:magnitudeColor="@{earthquake.properties.magnitude}"
-            app:magnitude="@{earthquake.properties.magnitude}"
-            tools:text="8.9" />
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{()-> clickListener.onItemClick(earthquake.properties.url)}"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="15dp">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp"
+            android:paddingEnd="16dp"
+            android:paddingRight="16dp">
 
             <TextView
-                android:id="@+id/offset_location_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
+                android:id="@+id/magnitude_text_view"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/magnitude_circle"
                 android:fontFamily="sans-serif-medium"
-                android:maxLines="1"
-                android:text="@{earthquake.properties.offset}"
-                android:textAllCaps="true"
-                android:textColor="@color/textColorEarthquakeDetails"
-                android:textSize="12sp"
-                tools:text="77 KM NW of" />
-
-            <TextView
-                android:id="@+id/main_location_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="@{earthquake.properties.location}"
-                android:textColor="@color/textColorEarthquakeLocation"
+                android:gravity="center"
+                android:textColor="@android:color/white"
                 android:textSize="16sp"
-                tools:text="Torn, Papua, new gunia" />
-        </LinearLayout>
+                app:magnitude="@{earthquake.properties.magnitude}"
+                app:magnitudeColor="@{earthquake.properties.magnitude}"
+                tools:text="8.9" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/date_text_view"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:gravity="right"
-                android:textColor="@color/textColorEarthquakeDetails"
-                android:textSize="12sp"
-                app:formatDate="@{earthquake.properties.time}"
-                tools:text="May 3,2014" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/time_text_view"
-                android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/offset_location_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="1"
+                    android:text="@{earthquake.properties.offset}"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorEarthquakeDetails"
+                    android:textSize="12sp"
+                    tools:text="77 KM NW of" />
+
+                <TextView
+                    android:id="@+id/main_location_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@{earthquake.properties.location}"
+                    android:textColor="@color/textColorEarthquakeLocation"
+                    android:textSize="16sp"
+                    tools:text="Torn, Papua, new gunia" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:gravity="right"
-                android:textColor="@color/textColorEarthquakeDetails"
-                android:textSize="12sp"
-                app:formatTime="@{earthquake.properties.time}"
-                tools:text="11:05 PM" />
-        </LinearLayout>
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/date_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="right"
+                    android:textColor="@color/textColorEarthquakeDetails"
+                    android:textSize="12sp"
+                    app:formatDate="@{earthquake.properties.time}"
+                    tools:text="May 3,2014" />
+
+                <TextView
+                    android:id="@+id/time_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="right"
+                    android:textColor="@color/textColorEarthquakeDetails"
+                    android:textSize="12sp"
+                    app:formatTime="@{earthquake.properties.time}"
+                    tools:text="11:05 PM" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

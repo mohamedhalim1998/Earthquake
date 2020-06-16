@@ -15,9 +15,11 @@ import com.mohamed.halim.essa.earthquake.databinding.ListItemBinding;
  * adapter class for the recycle view
  */
 public class EarthquakesAdapter extends ListAdapter<Earthquake, EarthquakesAdapter.EarthquakeViewHolder> {
+    private ItemClickListener itemClickListener;
 
-    EarthquakesAdapter() {
+    EarthquakesAdapter(ItemClickListener itemClickListener) {
         super(new EarthquakeDiffUtil());
+        this.itemClickListener = itemClickListener;
     }
 
     /**
@@ -38,6 +40,11 @@ public class EarthquakesAdapter extends ListAdapter<Earthquake, EarthquakesAdapt
     @Override
     public void onBindViewHolder(@NonNull EarthquakeViewHolder holder, int position) {
         holder.binding.setEarthquake(getItem(position));
+        holder.binding.setClickListener(itemClickListener);
+    }
+
+    public ItemClickListener getItemClickListener() {
+        return itemClickListener;
     }
 
     /**
@@ -67,5 +74,8 @@ public class EarthquakesAdapter extends ListAdapter<Earthquake, EarthquakesAdapt
         public boolean areContentsTheSame(@NonNull Earthquake oldItem, @NonNull Earthquake newItem) {
             return oldItem.equals(newItem);
         }
+    }
+    public interface ItemClickListener {
+        void onItemClick(String url);
     }
 }
