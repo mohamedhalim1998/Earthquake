@@ -2,40 +2,31 @@ package com.mohamed.halim.essa.earthquake.data.remote;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.room.Database;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mohamed.halim.essa.earthquake.data.DataSource;
 import com.mohamed.halim.essa.earthquake.data.EarthquakeResponse;
 import com.mohamed.halim.essa.earthquake.data.EarthquakeResponse.Earthquake;
-import com.mohamed.halim.essa.earthquake.data.local.EarthquakeDao;
-import com.mohamed.halim.essa.earthquake.data.local.EarthquakeDatabase;
-import com.mohamed.halim.essa.earthquake.data.local.EarthquakeExecutor;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import timber.log.Timber;
 
 /**
  * class to handle getting data from the api server
  */
 public class RemoteDataSource implements DataSource {
-    public static final String BASE_URL = "https://earthquake.usgs.gov/fdsnws/event/1/";
+    private static final String BASE_URL = "https://earthquake.usgs.gov/fdsnws/event/1/";
     // to handle the requests
     private ApiService apiService;
     // to store the earthquakes info
     private MutableLiveData<List<Earthquake>> earthquakes;
     private static RemoteDataSource INSTANCE;
-    private MutableLiveData<Boolean> success = new MutableLiveData<>();
     private Callback<EarthquakeResponse> callback;
 
     // singleton pattern to call the data
@@ -66,10 +57,17 @@ public class RemoteDataSource implements DataSource {
         return earthquakes;
     }
 
+    /**
+     * load new data starting with the given offset
+     *
+     * @param offset : to start from
+     */
     public void refreshData(int offset) {
         apiService.getEarthquakes(offset).enqueue(callback);
     }
 
+
+    // setter methods
     public void setCallback(Callback<EarthquakeResponse> callback) {
         this.callback = callback;
     }

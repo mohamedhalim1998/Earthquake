@@ -3,6 +3,7 @@ package com.mohamed.halim.essa.earthquake.earthquakes;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
@@ -31,6 +32,10 @@ import timber.log.Timber;
 
 public class EarthquakesFragment extends Fragment {
 
+    private Repository repository;
+    private EarthquakesViewModel viewModel;
+    private FragmentEarthquakesBinding binding;
+
     public EarthquakesFragment() {
     }
 
@@ -38,12 +43,15 @@ public class EarthquakesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentEarthquakesBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_earthquakes, container, false);
-        RemoteDataSource remoteDataSource = RemoteDataSource.getInstance();
-        LocalDataSource localDataSource = new LocalDataSource(requireContext());
-        Repository repository = new Repository(remoteDataSource, localDataSource);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_earthquakes, container, false);
+        initRepo();
         EarthquakesViewModelFactory factory = new EarthquakesViewModelFactory(repository);
-        EarthquakesViewModel viewModel = new ViewModelProvider(this, factory).get(EarthquakesViewModel.class);
+        viewModel = new ViewModelProvider(this, factory).get(EarthquakesViewModel.class);
+        initRecycleView();
+        return binding.getRoot();
+    }
+
+    private void initRecycleView() {
         EarthquakesAdapter adapter = new EarthquakesAdapter();
         LinearLayoutManager manager = new LinearLayoutManager(requireContext());
         viewModel.getEarthquakes().observe(getViewLifecycleOwner(), new Observer<List<Earthquake>>() {
@@ -57,9 +65,14 @@ public class EarthquakesFragment extends Fragment {
         binding.earthquakesList.addOnScrollListener(new EndlessRecyclerViewScrollListener(manager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                viewModel.updateDate(page * 20 +1);
+                viewModel.updateDate(page * 20 + 1);
             }
         });
-        return binding.getRoot();
+    }
+
+    private void initRepo() {
+        RemoteDataSource remoteDataSource = RemoteDataSource.getInstance();
+        LocalDataSource localDataSource = new LocalDataSource(requireContext());
+        repository = new Repository(remoteDataSource, localDataSource);
     }
 }

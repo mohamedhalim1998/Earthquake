@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.mohamed.halim.essa.earthquake.data.Repository;
 
+/**
+ * to create a Earthquake fragment view model
+ */
 public class EarthquakesViewModelFactory implements ViewModelProvider.Factory {
     private Repository repository;
 

@@ -1,7 +1,6 @@
 package com.mohamed.halim.essa.earthquake.earthquakes;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -12,13 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mohamed.halim.essa.earthquake.data.EarthquakeResponse.Earthquake;
 import com.mohamed.halim.essa.earthquake.databinding.ListItemBinding;
 
-
+/**
+ * adapter class for the recycle view
+ */
 public class EarthquakesAdapter extends ListAdapter<Earthquake, EarthquakesAdapter.EarthquakeViewHolder> {
 
-    public EarthquakesAdapter() {
+    EarthquakesAdapter() {
         super(new EarthquakeDiffUtil());
     }
 
+    /**
+     * to create a new view holder
+     */
     @NonNull
     @Override
     public EarthquakeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -28,20 +32,29 @@ public class EarthquakesAdapter extends ListAdapter<Earthquake, EarthquakesAdapt
         return new EarthquakeViewHolder(binding);
     }
 
+    /**
+     * to bind data to the view
+     */
     @Override
     public void onBindViewHolder(@NonNull EarthquakeViewHolder holder, int position) {
         holder.binding.setEarthquake(getItem(position));
     }
 
-    class EarthquakeViewHolder extends RecyclerView.ViewHolder {
+    /**
+     * inner class to create a view holder
+     */
+    static class EarthquakeViewHolder extends RecyclerView.ViewHolder {
         private ListItemBinding binding;
 
-        public EarthquakeViewHolder(ListItemBinding binding) {
+        EarthquakeViewHolder(ListItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
     }
 
+    /**
+     * Diifutil calls to compare earthquake objects
+     */
     static class EarthquakeDiffUtil extends DiffUtil.ItemCallback<Earthquake> {
 
 

@@ -1,12 +1,9 @@
 package com.mohamed.halim.essa.earthquake.data;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
 
 import com.google.gson.annotations.SerializedName;
 

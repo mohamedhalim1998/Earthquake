@@ -4,6 +4,9 @@ package com.mohamed.halim.essa.earthquake.data.local;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+/**
+ * Executor class to handle database transition in background thread
+ */
 public class EarthquakeExecutor {
     private static final Object LOCK = new Object();
     private static EarthquakeExecutor sInstance;
@@ -15,6 +18,11 @@ public class EarthquakeExecutor {
 
     }
 
+    /**
+     * get an instance from the executor class
+     *
+     * @return instance
+     */
     public static EarthquakeExecutor getInstance() {
         if (sInstance == null) {
             synchronized (LOCK) {
@@ -24,6 +32,9 @@ public class EarthquakeExecutor {
         return sInstance;
     }
 
+    /**
+     * getter for DiskIO executor
+     */
     public Executor diskIO() {
         return diskIO;
     }
